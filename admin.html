@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aayu Brand - Live Store</title>
+<title>Aayu Brand - Admin</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -12,164 +12,68 @@ const supabaseUrl = "https://eeazlxdugmpjtvfkfqcj.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVlYXpseGR1Z21wanR2ZmtmcWNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0MTgxNTIsImV4cCI6MjA4Nzk5NDE1Mn0.QSxwNNOd3PpSf_RURQz2SElAew9XXY6jA8p13B_Cjlo";
 
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-</script>
 
-<style>
-body{
-font-family: Arial, sans-serif;
-margin:0;
-background:#f8f8f8;
-}
-
-header{
-background:black;
-color:white;
-padding:15px;
-text-align:center;
-font-size:22px;
-}
-
-.container{
-padding:20px;
-}
-
-button{
-background:black;
-color:white;
-padding:10px 15px;
-border:none;
-cursor:pointer;
-margin-top:10px;
-}
-
-input, select{
-width:100%;
-padding:8px;
-margin:5px 0;
-}
-
-.product-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-gap:15px;
-margin-top:20px;
-}
-
-.product-card{
-background:white;
-padding:10px;
-border-radius:8px;
-box-shadow:0 0 5px rgba(0,0,0,0.1);
-text-align:center;
-}
-
-.product-card img{
-width:100%;
-height:180px;
-object-fit:cover;
-}
-</style>
-</head>
-
-<body>
-
-<header>
-Aayu Brand - Ara, Bihar
-</header>
-
-<div class="container">
-
-<h2>🛍️ Shop</h2>
-<div id="productContainer" class="product-grid"></div>
-
-<hr style="margin:40px 0;">
-
-<h2>🔐 Admin Panel</h2>
-
-<input type="password" id="adminPass" placeholder="Enter Admin Password">
-<button onclick="checkAdmin()">Login</button>
-
-<div id="adminSection" style="display:none;">
-
-<h3>Add Product</h3>
-
-<input type="text" id="pname" placeholder="Product Name">
-<input type="number" id="pprice" placeholder="Price">
-<input type="text" id="pimage" placeholder="Image URL">
-<select id="pcategory">
-<option value="Men">Men</option>
-<option value="Women">Women</option>
-<option value="Kids">Kids</option>
-</select>
-
-<button onclick="addProduct()">Add Product</button>
-
-</div>
-
-</div>
-
-<script>
-
-function checkAdmin(){
-let pass = document.getElementById("adminPass").value;
+function login(){
+let pass = document.getElementById("pass").value;
 if(pass === "Aayu@2024"){
-document.getElementById("adminSection").style.display="block";
-alert("Admin Access Granted");
+document.getElementById("panel").style.display="block";
 }else{
 alert("Wrong Password");
 }
 }
 
 async function addProduct(){
+let name=document.getElementById("name").value;
+let price=document.getElementById("price").value;
+let image=document.getElementById("image").value;
+let category=document.getElementById("category").value;
 
-let name = document.getElementById("pname").value;
-let price = document.getElementById("pprice").value;
-let image = document.getElementById("pimage").value;
-let category = document.getElementById("pcategory").value;
-
-if(!name || !price || !image){
-alert("Fill all fields");
-return;
-}
+if(!name||!price||!image){alert("Fill all fields");return;}
 
 const { error } = await supabase
 .from('products')
 .insert([{ name, price, image, category }]);
 
 if(error){
-alert("Error: " + error.message);
+alert(error.message);
 }else{
-alert("Product Added Successfully");
-loadProducts();
+alert("Product Added");
 }
 }
-
-async function loadProducts(){
-
-const { data, error } = await supabase
-.from('products')
-.select('*');
-
-let container = document.getElementById("productContainer");
-container.innerHTML="";
-
-if(data){
-data.forEach(product=>{
-container.innerHTML += `
-<div class="product-card">
-<img src="${product.image}">
-<h4>${product.name}</h4>
-<p>₹${product.price}</p>
-<p>${product.category}</p>
-</div>
-`;
-});
-}
-}
-
-loadProducts();
-
 </script>
 
+<style>
+body{font-family:Arial;background:#f5f5f5;text-align:center;padding:20px}
+input,select{width:100%;max-width:300px;margin:5px;padding:8px}
+button{padding:10px 15px;background:black;color:white;border:none;margin-top:10px}
+#panel{display:none;margin-top:20px}
+</style>
+
+</head>
+
+<body>
+
+<h2>Aayu Brand Admin</h2>
+
+<input type="password" id="pass" placeholder="Enter Password">
+<button onclick="login()">Login</button>
+
+<div id="panel">
+
+<h3>Add Product</h3>
+
+<input type="text" id="name" placeholder="Product Name">
+<input type="number" id="price" placeholder="Price">
+<input type="text" id="image" placeholder="Image URL">
+<select id="category">
+<option>Men</option>
+<option>Women</option>
+<option>Kids</option>
+</select>
+
+<button onclick="addProduct()">Add Product</button>
+
+</div>
+
 </body>
-  </html>
+</html>

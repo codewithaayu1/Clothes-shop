@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aayu Brand | Premium Fashion</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =====================
+   GLOBAL STYLES
+===================== */
+
+:root{
+    --gold:#C6A75E;
+    --black:#111;
+    --beige:#F5F1E8;
+    --white:#fff;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:var(--white);
+    color:var(--black);
+}
+
+h1,h2,h3{
+    font-family:'Playfair Display',serif;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+section{
+    padding:60px 8%;
+}
+
+button{
+    cursor:pointer;
+    border:none;
+    padding:10px 20px;
+    transition:.3s;
+}
+
+/* =====================
+   NAVBAR
+===================== */
+
+header{
+    position:sticky;
+    top:0;
+    background:var(--white);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 8%;
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+    z-index:1000;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:700;
+    color:var(--gold);
+}
+
+nav a{
+    margin-left:20px;
+    font-weight:500;
+}
+
+nav a:hover{
+    color:var(--gold);
+}
+
+/* =====================
+   HERO
+===================== */
+
+.hero{
+    height:90vh;
+    background:url("https://images.unsplash.com/photo-1521335629791-ce4aec67dd53") center/cover;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:white;
+    position:relative;
+}
+
+.hero::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.5);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+}
+
+.hero h1{
+    font-size:48px;
+    margin-bottom:20px;
+}
+
+.gold-btn{
+    background:var(--gold);
+    color:white;
+}
+
+.gold-btn:hover{
+    background:black;
+}
+
+/* =====================
+   PRODUCT GRID
+===================== */
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.product-card{
+    border:1px solid #eee;
+    padding:15px;
+    transition:.3s;
+    background:white;
+}
+
+.product-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 20px rgba(0,0,0,.1);
+}
+
+.product-card img{
+    width:100%;
+    height:300px;
+    object-fit:cover;
+}
+
+.price{
+    color:var(--gold);
+    font-weight:600;
+}
+
+/* =====================
+   FOOTER
+===================== */
+
+footer{
+    background:var(--black);
+    color:white;
+    padding:40px 8%;
+    text-align:center;
+}
+
+footer a{
+    color:var(--gold);
+}
+
+/* =====================
+   FORMS
+===================== */
+
+input,select,textarea{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border:1px solid #ddd;
+}
+
+/* =====================
+   CART PANEL
+===================== */
+
+.cart-count{
+    background:var(--gold);
+    padding:2px 8px;
+    border-radius:50%;
+    color:white;
+    font-size:12px;
+}
+
+/* =====================
+   RESPONSIVE
+===================== */
+
+@media(max-width:768px){
+    .hero h1{
+        font-size:32px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">Aayu Brand</div>
+<nav>
+<a href="#home">Home</a>
+<a href="#shop">Shop</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+<a href="#cart">Cart <span class="cart-count" id="cartCount">0</span></a>
+</nav>
+</header>
+
+<!-- ================= HOME ================= -->
+
+<section class="hero" id="home">
+<div class="hero-content">
+<h1>Discover Your Style with Aayu Brand</h1>
+<p>Flat 30% OFF on Selected Collection</p>
+<br>
+<a href="#shop"><button class="gold-btn">Shop Now</button></a>
+</div>
+</section>
+
+<!-- ================= SHOP ================= -->
+
+<section id="shop">
+<h2>Shop Collection</h2>
+<br>
+<input type="text" id="search" placeholder="Search products..." onkeyup="filterProducts()">
+<br><br>
+<div class="products" id="productList"></div>
+</section>
+
+<!-- ================= CART ================= -->
+
+<section id="cart">
+<h2>Your Cart</h2>
+<div id="cartItems"></div>
+<h3 id="totalPrice"></h3>
+</section>
+
+<!-- ================= CHECKOUT ================= -->
+
+<section id="checkout">
+<h2>Checkout</h2>
+<input type="text" placeholder="Full Name">
+<input type="text" placeholder="Address (Ara, Bihar - Garhani)">
+<input type="text" placeholder="Phone Number">
+<select>
+<option>Cash on Delivery</option>
+<option>UPI</option>
+</select>
+<button class="gold-btn" onclick="alert('Order Placed Successfully!')">Place Order</button>
+</section>
+
+<!-- ================= ABOUT ================= -->
+
+<section id="about">
+<h2>About Aayu Brand</h2>
+<p>
+Aayu Brand is a premium local fashion store based in Ara, Bihar (Garhani).
+We provide stylish and affordable fashion for Men, Women and Kids.
+Our mission is to deliver luxury fashion with comfort and confidence.
+</p>
+</section>
+
+<!-- ================= CONTACT ================= -->
+
+<section id="contact">
+<h2>Contact Us</h2>
+<p>Location: Ara, Bihar - Garhani</p>
+<p>Phone: 7520947031</p>
+<a href="https://wa.me/917520947031" target="_blank">
+<button class="gold-btn">WhatsApp Order</button>
+</a>
+
+<form>
+<input type="text" placeholder="Your Name">
+<input type="email" placeholder="Your Email">
+<textarea placeholder="Your Message"></textarea>
+<button class="gold-btn">Send Message</button>
+</form>
+</section>
+
+<footer>
+<p>© 2026 Aayu Brand | Premium Fashion Store - Ara, Bihar</p>
+</footer>
+
+<script>
+
+/* =====================
+   PRODUCTS DATA
+===================== */
+
+const products = [
+{ id:1, name:"Men Classic Shirt", price:999, category:"Men", image:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf"},
+{ id:2, name:"Women Elegant Dress", price:1499, category:"Women", image:"https://images.unsplash.com/photo-1490481651871-ab68de25d43d"},
+{ id:3, name:"Kids Casual T-Shirt", price:599, category:"Kids", image:"https://images.unsplash.com/photo-1519238263530-99bdd11df2ea"},
+{ id:4, name:"Men Premium Jacket", price:1999, category:"Men", image:"https://images.unsplash.com/photo-1520975918318-4e60b8c8d5d7"},
+{ id:5, name:"Women Party Gown", price:2499, category:"Women", image:"https://images.unsplash.com/photo-1520975922324-0f4b8a6caa43"},
+{ id:6, name:"Kids Hoodie", price:799, category:"Kids", image:"https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03"},
+{ id:7, name:"Men Slim Fit Jeans", price:1299, category:"Men", image:"https://images.unsplash.com/photo-1541099649105-f69ad21f3246"},
+{ id:8, name:"Women Top", price:899, category:"Women", image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"},
+{ id:9, name:"Kids Shorts", price:499, category:"Kids", image:"https://images.unsplash.com/photo-1602810319413-9b4f2c1e3b91"},
+{ id:10, name:"Men Blazer", price:2999, category:"Men", image:"https://images.unsplash.com/photo-1520975922303-2b97a7bdf6d8"},
+{ id:11, name:"Women Saree", price:1899, category:"Women", image:"https://images.unsplash.com/photo-1585487000154-6c8e7c8d4f5e"},
+{ id:12, name:"Kids Jacket", price:999, category:"Kids", image:"https://images.unsplash.com/photo-1519238366-cd0c4e9fbd47"},
+{ id:13, name:"Men T-Shirt", price:699, category:"Men", image:"https://images.unsplash.com/photo-1520975922988-7c2c7e6a2c1d"},
+{ id:14, name:"Women Kurti", price:1199, category:"Women", image:"https://images.unsplash.com/photo-1492724441997-5dc865305da7"},
+{ id:15, name:"Kids Denim Set", price:1299, category:"Kids", image:"https://images.unsplash.com/photo-1585487000122-6a0b4f3e7c5e"}
+];
+
+/* =====================
+   DISPLAY PRODUCTS
+===================== */
+
+function displayProducts(list){
+    const container = document.getElementById("productList");
+    container.innerHTML="";
+    list.forEach(p=>{
+        container.innerHTML+=`
+        <div class="product-card">
+            <img src="${p.image}">
+            <h3>${p.name}</h3>
+            <p class="price">₹${p.price}</p>
+            <button class="gold-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+        </div>
+        `;
+    });
+}
+
+displayProducts(products);
+
+/* =====================
+   SEARCH
+===================== */
+
+function filterProducts(){
+    const search = document.getElementById("search").value.toLowerCase();
+    const filtered = products.filter(p=>p.name.toLowerCase().includes(search));
+    displayProducts(filtered);
+}
+
+/* =====================
+   CART SYSTEM
+===================== */
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function updateCart(){
+    localStorage.setItem("cart",JSON.stringify(cart));
+    document.getElementById("cartCount").innerText = cart.length;
+
+    const cartItems = document.getElementById("cartItems");
+    cartItems.innerHTML="";
+    let total=0;
+
+    cart.forEach(item=>{
+        total+=item.price;
+        cartItems.innerHTML+=`
+        <p>${item.name} - ₹${item.price}
+        <button onclick="removeItem(${item.id})">Remove</button></p>
+        `;
+    });
+
+    document.getElementById("totalPrice").innerText="Total: ₹"+total;
+}
+
+function addToCart(id){
+    const product = products.find(p=>p.id===id);
+    cart.push(product);
+    updateCart();
+}
+
+function removeItem(id){
+    cart = cart.filter(p=>p.id!==id);
+    updateCart();
+}
+
+updateCart();
+
+</script>
+
+</body>
+  </html>
